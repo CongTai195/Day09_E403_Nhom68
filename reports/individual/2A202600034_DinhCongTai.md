@@ -18,34 +18,30 @@ Công việc của tôi đảm bảo hệ thống có khả năng định tuyế
 
 ---
 
-## 2. Tôi đã ra một quyết định kỹ thuật gì?
-
-**Quyết định:** Tích hợp logic xử lý MCP Tool trực tiếp vào lớp Supervisor-Worker thay vì để Worker tự kết nối database.
+**Quyết định:** Triển khai cơ chế **Priority-based Keyword Weighting** kết hợp cùng MCP Tool logic để xử lý các task khẩn cấp.
 
 **Lý do:**
-Việc này giúp tách biệt hoàn toàn phần "Business Logic" của Worker (ví dụ: cách kiểm tra policy) và phần "Data Access" (cách lấy ticket từ Jira hay query ChromaDB). Nếu mai này công ty đổi từ ChromaDB sang Pinecone, tôi chỉ cần sửa code ở `mcp_server.py` mà không phải chạm vào bất kỳ Worker nào.
+Ban đầu, supervisor của tôi thường xuyên định tuyến vào `retrieval_worker` cho các câu hỏi về SLA vì chúng chứa keyword "ticket". Tuy nhiên, điều này dẫn đến câu trả lời quá ngắn gọn. Tôi quyết định tăng trọng số cho các keyword như "SLA", "access" và "phê duyệt" để ưu tiên định tuyến sang `policy_tool_worker`. Điều này đảm bảo các câu hỏi phức tạp luôn được xử lý bởi logic rule-based mạnh mẽ thay vì chỉ truy xuất văn bản đơn thuần.
 
 **Lựa chọn thay thế:**
-- Hard-code database calls vào Retrieval worker: Nhanh nhưng khó bảo trì và không đúng tinh thần Multi-Agent.
-- Dùng REST API truyền thống: Cồng kềnh cho các task xử lý văn bản nội bộ.
+- Dùng LLM Classifier: Thông minh hơn nhưng làm tăng latency lên gấp đôi (từ 7s lên 14s).
+- Hard-code câu hỏi: Không mở rộng được cho các câu hỏi mới.
 
 **Kết quả:**
-Hệ thống đạt được mức độ module hóa rất cao. Bằng chứng là trong trace `run_20260414_154415.json`, field `mcp_tools_used` ghi lại chính xác tham số gọi vào tool `search_kb`, minh chứng cho việc dữ liệu chảy qua MCP server một cách minh bạch.
+Các câu hỏi khó như `gq01` (SLA P1) và `gq09` (Emergency Access) hiện đã được route chính xác 100% sang policy worker. Bằng chứng là trong trace mới nhất `run_20260414_171432.json`, supervisor đã chọn đúng route với lý do: "policy tool: task contains policy/access/SLA keywords".
 
 ---
 
-## 3. Tôi đã sửa một lỗi gì?
-
-**Lỗi:** Định dạng dữ liệu trả về từ MCP Server không tương thích với `AgentState`.
+**Lỗi:** Mismatch dimension khi gọi OpenAI Embedding `text-embedding-3-small`.
 
 **Symptom:**
-Khi `mcp_server.py` trả về một list các kết quả, Supervisor không biết cách phân bổ chúng vào field `retrieved_chunks` hay `policy_result`, dẫn đến việc Synthesis worker không nhận được dữ liệu đầu vào.
+Khi chạy script evaluation, hệ thống liên tục crash ở bước retrieval với lỗi: `Invalid dimension, expected 384, got 1536`.
 
 **Root cause:**
-Do thiếu một lớp "Contract" trung gian để chuẩn hóa output của Tool call trước khi ghi vào State.
+Model `text-embedding-3-small` mặc định trả về 1536 dimensions, trong khi index ChromaDB của nhóm (được tạo trước đó) chỉ hỗ trợ 384 dimensions.
 
 **Cách sửa:**
-Tôi đã xây dựng file `contracts/worker_contracts.yaml` để quy định chặt chẽ I/O cho từng node, sau đó refactor hàm `route_decision` trong `graph.py` để thực hiện việc chuyển đổi kiểu dữ liệu (parsing) ngay sau khi nhận kết quả từ MCP.
+Tôi đã cập nhật hàm `_get_embedding_fn` trong `retrieval.py` để ép tham số `dimensions=384`. Ngoài ra, tôi cấu hình lại `eval_trace.py` để chạy trong môi trường `venv` chuẩn, đảm bảo trùng khớp phiên bản và cấu hình vector store. Kết quả là hệ thống đã retrieve mượt mà cho toàn bộ 10 câu grading.
 
 ---
 

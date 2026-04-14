@@ -1,0 +1,159 @@
+{
+  "task": "Nhân viên vừa vào thử việc (trong probation period) muốn làm remote vì lý do cá nhân. Điều kiện là gì?",
+  "route_reason": "default retrieval: general query",
+  "risk_high": false,
+  "needs_tool": false,
+  "hitl_triggered": false,
+  "retrieved_chunks": [
+    {
+      "text": "4.1 Điều kiện remote:\n- Nhân viên sau probation period có thể làm remote tối đa 2 ngày/tuần.\n- Team Lead phải phê duyệt lịch remote qua HR Portal.\n- Ngày onsite bắt buộc: Thứ 3 và Thứ 5 theo lịch team.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.4876,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "=== Section 1: Phạm vi và mục đích ===\nTài liệu này quy định quy trình cấp phép truy cập vào các hệ thống nội bộ của công ty.\nÁp dụng cho tất cả nhân viên, contractor, và third-party vendor.",
+      "source": "access_control_sop.txt",
+      "score": 0.2497,
+      "metadata": {
+        "source": "access_control_sop.txt"
+      }
+    },
+    {
+      "text": "4.2 Yêu cầu kỹ thuật khi remote:\n- Kết nối VPN bắt buộc khi làm việc với hệ thống nội bộ.\n- Camera bật trong các cuộc họp team.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.2352,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "Q: Ai chịu trách nhiệm gia hạn license phần mềm?\nA: IT Procurement team quản lý tất cả license. Nhắc nhở sẽ được gửi 30 ngày trước khi hết hạn.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.2183,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "Ngoại lệ không được hoàn tiền:\n- Sản phẩm thuộc danh mục hàng kỹ thuật số (license key, subscription).\n- Đơn hàng đã áp dụng mã giảm giá đặc biệt theo chương trình khuyến mãi Flash Sale.\n- Sản phẩm đã được kích hoạt hoặc đăng ký tài khoản.",
+      "source": "policy_refund_v4.txt",
+      "score": 0.2109,
+      "metadata": {
+        "source": "policy_refund_v4.txt"
+      }
+    },
+    {
+      "text": "Q: VPN có giới hạn số thiết bị không?\nA: Mỗi tài khoản được kết nối VPN trên tối đa 2 thiết bị cùng lúc.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.2042,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "Bước 1: Nhân viên gửi yêu cầu nghỉ phép qua hệ thống HR Portal (https://hr.company.internal) ít nhất 3 ngày làm việc trước ngày nghỉ.\nBước 2: Line Manager phê duyệt hoặc từ chối trong vòng 1 ngày làm việc.\nBước 3: Nhân viên nhận thông báo qua email sau khi được phê duyệt.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.1836,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "Q: Tôi bị mất kết nối VPN liên tục, phải làm gì?\nA: Kiểm tra kết nối Internet trước. Nếu vẫn lỗi, tạo ticket P3 với log file VPN đính kèm.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.1734,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "=== Điều 2: Điều kiện được hoàn tiền ===\nKhách hàng được quyền yêu cầu hoàn tiền khi đáp ứng đủ các điều kiện sau:\n- Sản phẩm bị lỗi do nhà sản xuất, không phải do người dùng.\n- Yêu cầu được gửi trong vòng 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng.\n- Đơn hàng chưa được sử dụng hoặc chưa bị mở seal.",
+      "source": "policy_refund_v4.txt",
+      "score": 0.1718,
+      "metadata": {
+        "source": "policy_refund_v4.txt"
+      }
+    },
+    {
+      "text": "Q: Hộp thư đến đầy, phải làm gì?\nA: Xóa email cũ hoặc yêu cầu tăng dung lượng qua ticket IT-ACCESS. Dung lượng tiêu chuẩn là 50GB.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.129,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    }
+  ],
+  "retrieved_sources": [
+    "hr_leave_policy.txt",
+    "policy_refund_v4.txt",
+    "it_helpdesk_faq.txt",
+    "access_control_sop.txt"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "Nhân viên trong thời gian thử việc (probation period) không đủ điều kiện để làm remote. Theo quy định, chỉ nhân viên sau probation period mới có thể làm remote tối đa 2 ngày/tuần, với sự phê duyệt của Team Lead qua HR Portal [1].",
+  "sources": [
+    "hr_leave_policy.txt",
+    "policy_refund_v4.txt",
+    "it_helpdesk_faq.txt",
+    "access_control_sop.txt"
+  ],
+  "confidence": 0.23,
+  "history": [
+    "[supervisor] received task: Nhân viên vừa vào thử việc (trong probation period) muốn làm remote vì lý do cá ",
+    "[supervisor] route=retrieval_worker reason=default retrieval: general query",
+    "[retrieval_worker] retrieved 10 chunks from ['hr_leave_policy.txt', 'policy_refund_v4.txt', 'it_helpdesk_faq.txt', 'access_control_sop.txt']",
+    "[synthesis_worker] answer generated, confidence=0.23, sources=['hr_leave_policy.txt', 'policy_refund_v4.txt', 'it_helpdesk_faq.txt', 'access_control_sop.txt']",
+    "[graph] completed in 5845ms"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 5845,
+  "run_id": "run_20260414_164539",
+  "timestamp": "2026-04-14T16:45:39.247316",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Nhân viên vừa vào thử việc (trong probation period) muốn làm remote vì lý do cá nhân. Điều kiện là gì?",
+        "top_k": 10
+      },
+      "output": {
+        "chunks_count": 10,
+        "sources": [
+          "hr_leave_policy.txt",
+          "policy_refund_v4.txt",
+          "it_helpdesk_faq.txt",
+          "access_control_sop.txt"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Nhân viên vừa vào thử việc (trong probation period) muốn làm remote vì lý do cá nhân. Điều kiện là gì?",
+        "chunks_count": 10,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 229,
+        "sources": [
+          "hr_leave_policy.txt",
+          "policy_refund_v4.txt",
+          "it_helpdesk_faq.txt",
+          "access_control_sop.txt"
+        ],
+        "confidence": 0.23
+      },
+      "error": null
+    }
+  ],
+  "question_id": "q14"
+}

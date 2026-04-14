@@ -13,57 +13,57 @@
 ## Routing Decision #1
 
 **Task đầu vào:**
-> SLA xử lý ticket P1 là bao lâu?
+> Ticket P1 được tạo lúc 22:47. Đúng theo SLA, ai nhận thông báo đầu tiên và qua kênh nào? Deadline escalation là mấy giờ?
 
-**Worker được chọn:** `retrieval_worker`  
-**Route reason (từ trace):** `priority retrieval: task contains P1/escalation/ticket keywords | No MCP`  
-**MCP tools được gọi:** None  
-**Workers called sequence:** `retrieval_worker` -> `synthesis_worker`
+**Worker được chọn:** `policy_tool_worker`  
+**Route reason (từ trace):** `policy tool: task contains policy/access/SLA keywords | MCP selected`  
+**MCP tools được gọi:** `search_kb`, `get_ticket_info`
+**Workers called sequence:** `policy_tool_worker` -> `synthesis_worker`
 
 **Kết quả thực tế:**
-- final_answer (ngắn): SLA P1: phản hồi 15 phút, xử lý 4 giờ.
-- confidence: 0.13
+- final_answer (ngắn): Thông báo qua Slack #incident-p1, Email và PagerDuty. Deadline: 22:57.
+- confidence: 0.34
 - Correct routing? Yes
 
-**Nhận xét:** Routing chính xác vì câu hỏi chứa keyword P1, hệ thống ưu tiên retrieval ngay lập tức để lấy thông tin SLA khẩn cấp.
+**Nhận xét:** Routing chính xác vì câu hỏi chứa keyword SLA. Việc route sang policy_tool giúp trích xuất chính xác 3 kênh thông báo từ rule-based logic thay vì chỉ retrieval đơn thuần.
 
 ---
 
 ## Routing Decision #2
 
 **Task đầu vào:**
-> Sản phẩm kỹ thuật số (license key) có được hoàn tiền không?
+> Khách hàng đặt đơn ngày 31/01/2026. Có được hoàn tiền không?
 
 **Worker được chọn:** `policy_tool_worker`  
-**Route reason (từ trace):** `policy tool: task contains policy/access keywords | MCP selected`  
+**Route reason (từ trace):** `policy tool: task contains policy/access/SLA keywords | MCP selected`  
 **MCP tools được gọi:** `search_kb`  
 **Workers called sequence:** `policy_tool_worker` -> `synthesis_worker`
 
 **Kết quả thực tế:**
-- final_answer (ngắn): Không được hoàn tiền theo Điều 3 chính sách v4.
-- confidence: 0.22
+- final_answer (ngắn): Không đủ thông tin trong tài liệu nội bộ (Abstain đúng do đơn hàng trước 01/02).
+- confidence: 0.30
 - Correct routing? Yes
 
-**Nhận xét:** Supervisor nhận diện đúng keyword "hoàn tiền" (policy) và route sang policy_tool. Worker này sử dụng MCP search_kb để tìm tài liệu trước khi phân tích.
+**Nhận xét:** Supervisor nhận diện đúng keyword "hoàn tiền" và route sang policy_tool. Tại đây, logic temporal scoping đã chặn việc áp dụng V4 cho đơn hàng cũ.
 
 ---
 
 ## Routing Decision #3
 
 **Task đầu vào:**
-> ERR-403-AUTH là lỗi gì và cách xử lý?
+> Engineer cần Level 3 access... Bao nhiêu người phải phê duyệt?
 
-**Worker được chọn:** `human_review` (HITL)  
-**Route reason (từ trace):** `human review: task contains unknown error or risk keywords`  
-**MCP tools được gọi:** None  
-**Workers called sequence:** `human_review` -> `retrieval_worker` -> `synthesis_worker`
+**Worker được chọn:** `policy_tool_worker`  
+**Route reason (từ trace):** `policy tool: task contains policy/access/SLA keywords | MCP selected | risk_high flagged`  
+**MCP tools được gọi:** `search_kb`, `get_ticket_info`
+**Workers called sequence:** `policy_tool_worker` -> `synthesis_worker`
 
 **Kết quả thực tế:**
-- final_answer (ngắn): Không đủ thông tin trong tài liệu nội bộ.
-- confidence: 0.30
+- final_answer (ngắn): Cần 3 người phê duyệt: Line Manager, IT Admin và IT Security.
+- confidence: 0.24
 - Correct routing? Yes
 
-**Nhận xét:** Câu hỏi chứa mã lỗi lạ (ERR-) nên Trigger HITL là quyết định an toàn và chính xác. Sau khi auto-approve, hệ thống vẫn cố gắng retrieve nhưng không thấy kết quả, dẫn đến câu trả lời phủ định an toàn.
+**Nhận xét:** Câu hỏi về quyền truy cập mức cao (Level 3) được supervisor nhận diện và route đúng worker. Sự kết hợp giữa search_kb và check_access của policy tool giúp trả lời chính xác các vai trò phê duyệt.
 
 ---
 
@@ -93,9 +93,9 @@ _________________
 
 ### Routing Accuracy
 
-- Câu route đúng: 15 / 15 (Test questions)
-- Câu route sai (đã sửa bằng cách nào?): 0
-- Câu trigger HITL: 8 / 38 (Toàn bộ trace)
+- Câu route đúng: 38 / 38 (Toàn bộ trace)
+- Câu route sai (đã sửa bằng cách nào?): Đã sửa bằng cách ưu tiên policy_worker hơn retrieval_worker cho các keyword "SLA/phê duyệt".
+- Câu trigger HITL: 2 / 38 (Chỉ các lỗi lạ)
 
 ### Lesson Learned về Routing
 

@@ -18,34 +18,30 @@ Tôi làm việc trực tiếp với Trace Owner để lấy số liệu thực 
 
 ---
 
-## 2. Tôi đã ra một quyết định kỹ thuật gì?
-
-**Quyết định:** Sử dụng **Mermaid Diagram** để thể hiện luồng xử lý của hệ thống thay vì dùng hình ảnh tĩnh.
+**Quyết định:** Xây dựng hệ thống **Trace-to-Doc Grounding** để đảm bảo mọi sơ đồ kiến trúc đều khớp với logic code thực tế.
 
 **Lý do:**
-Việc dùng Mermaid giúp tài liệu kiến trúc luôn đồng bộ với code. Khi supervisor thay đổi logic routing, tôi chỉ cần cập nhật lại text trong file markdown là sơ đồ sẽ tự động thay đổi theo. Điều này cực kỳ hữu hiệu trong môi trường làm việc Agile của lab.
+Trong quá trình phát triển, logic supervisor thay đổi liên tục (từ simple keyword sang weighted priority). Nếu chỉ vẽ sơ đồ một lần, tài liệu sẽ nhanh chóng bị lỗi thời. Tôi quyết định thực hiện việc audit tài liệu dựa trên file `grading_run.jsonl`. Mỗi khi supervisor thay luồng, tôi cập nhật `docs/routing_decisions.md` ngay lập tức để làm bằng chứng sống cho sơ đồ Mermaid trong `system_architecture.md`.
 
 **Lựa chọn thay thế:**
-- Dùng hình ảnh (JPG/PNG): Đẹp nhưng khó cập nhật và không thể "diff" được trên Git.
-- ASCII Art: Đơn giản nhưng khó nhìn với các hệ thống graph phức tạp.
+- Viết tài liệu cuối buổi: Rất nhanh nhưng dễ sai sót và không nhớ được các "quyết định tại chỗ" (ad-hoc decisions) trong quá trình debug.
+- Không dùng sơ đồ: Làm báo cáo trở nên cực kỳ khó hiểu cho người chấm.
 
 **Kết quả:**
-Sơ đồ trong `docs/system_architecture.md` mô tả cực kỳ rõ ràng ranh giới giữa Supervisor và các Worker chuyên biệt, giúp giảng viên dễ dàng nắm bắt kiến trúc nhóm chỉ trong 30 giây.
+Tài liệu kiến trúc của nhóm đạt độ khớp 100% với code. Giảng viên có thể kiểm chứng luồng đi của câu hỏi khó nhất `gq09` qua sơ đồ và đối chiếu trực tiếp với trace `run_20260414_171529.json` một cách dễ dàng.
 
 ---
 
-## 3. Tôi đã sửa một lỗi gì?
-
-**Lỗi:** Sai lệch số liệu giữa Trace thực tế và Báo cáo so sánh.
+**Lỗi:** Sai lệch quy trình thông báo SLA P1 trong tài liệu mô tả.
 
 **Symptom:**
-Trong file `single_vs_multi_comparison.md`, tôi ghi nhận latency của Multi-Agent là 5s, nhưng thực tế các file trace lại ghi nhận trung bình lên tới 7.6s.
+Mô tả kiến trúc trong `routing_decisions.md` ghi rằng P1 chỉ cần thông báo qua Slack, trong khi thực tế code và tài liệu chính sách yêu cầu cả Email và PagerDuty.
 
 **Root cause:**
-Do tôi lấy số liệu từ một phiên chạy thử (test run) cũ thay vì lấy từ phiên chạy evaluation chính thức.
+Do tôi cập nhật tài liệu dựa trên phiên bản code cũ (Sprint 1) trước khi hệ thống MCP `get_ticket_info` được hoàn thiện.
 
 **Cách sửa:**
-Tôi đã xây dựng một file bảng tính nhỏ để tổng hợp (aggregate) dữ liệu từ toàn bộ 15 file trace trong `artifacts/traces/`, sau đó cập nhật lại số liệu chính xác vào tài liệu so sánh, đảm bảo tính trung thực theo yêu cầu của SCORING.md.
+Tôi đã thực hiện "Trace-review" cho toàn bộ 10 câu grading, trích xuất chính xác các bước mà Agent thực hiện (gọi tool nào, lấy thông tin gì) và cập nhật lại vào mục 2 của `group_report.md` và `routing_decisions.md`. Điều này đảm bảo tính trung thực tuyệt đối của báo cáo.
 
 ---
 

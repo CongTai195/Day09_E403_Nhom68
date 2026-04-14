@@ -93,10 +93,10 @@ def supervisor_node(state: AgentState) -> AgentState:
     retrieval_priority_keywords = ["p1", "escalation", "ticket"]
     
     # 2. Policy tool keywords
-    policy_keywords = ["hoàn tiền", "refund", "policy", "cấp quyền", "access", "emergency"]
+    policy_keywords = ["hoàn tiền", "refund", "policy", "cấp quyền", "access", "emergency", "level 2", "level 3", "phê duyệt", "sla", "thông báo", "notification"]
     
     # 3. Human review keywords
-    human_review_keywords = ["mã lỗi không rõ", "unknown error", "err-"]
+    human_review_keywords = ["mã lỗi không rõ", "unknown error", "err-", "rủi ro cao"]
 
     # Default values
     route = "retrieval_worker"
@@ -105,13 +105,13 @@ def supervisor_node(state: AgentState) -> AgentState:
     risk_high = False
 
     # Evaluation logic with priorities
-    if any(kw in task for kw in retrieval_priority_keywords):
+    if any(kw in task for kw in policy_keywords):
+        route = "policy_tool_worker"
+        route_reason = "policy tool: task contains policy/access/SLA keywords | MCP selected"
+        needs_tool = True
+    elif any(kw in task for kw in retrieval_priority_keywords):
         route = "retrieval_worker"
         route_reason = "priority retrieval: task contains P1/escalation/ticket keywords | No MCP"
-    elif any(kw in task for kw in policy_keywords):
-        route = "policy_tool_worker"
-        route_reason = "policy tool: task contains policy/access keywords | MCP selected"
-        needs_tool = True
     elif any(kw in task for kw in human_review_keywords):
         route = "human_review"
         route_reason = "human review: task contains unknown error or risk keywords"

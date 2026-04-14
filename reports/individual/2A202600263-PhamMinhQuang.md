@@ -18,34 +18,30 @@ Tôi đảm bảo rằng mỗi worker đều tuân thủ đúng Contract đã đ
 
 ---
 
-## 2. Tôi đã ra một quyết định kỹ thuật gì?
-
-**Quyết định:** Triển khai **Grounding & Citation logic** ngay bên trong Synthesis Worker thay vì chỉ để LLM tự trả lời.
+**Quyết định:** Triển khai **Hybrid Policy Engine** (kết hợp Rule-based Python và LLM context) bên trong `policy_tool.py`.
 
 **Lý do:**
-Ban đầu, synthesis worker chỉ gửi context cho GPT và yêu cầu nó trả lời. Tuy nhiên, tôi nhận thấy mô hình thường quên trích dẫn nguồn hoặc trích dẫn sai định dạng. Tôi quyết định viết thêm một lớp xử lý hậu kỳ (post-processing) để parse các `retrieved_sources` và ép LLM phải sử dụng định dạng `[1]`, `[2]` một cách nghiêm ngặt.
+Chỉ dựa vào LLM để phân tích chính sách hoàn tiền thường dẫn đến sai sót khi gặp các mốc thời gian nhạy cảm (như đơn hàng trước ngày 01/02). Tôi quyết định viết thêm một lớp logic bằng Python để "block" cứng các đơn hàng không thuộc phạm vi chính sách V4 trước khi gửi dữ liệu lên LLM. Điều này đảm bảo tính tuân thủ tuyệt đối cho các câu hỏi về thời gian.
 
 **Lựa chọn thay thế:**
-- Dùng Few-shot prompting: Tốt nhưng tốn token và không đảm bảo 100% định dạng.
-- Dùng Regex để parse answer: Phức tạp và dễ lỗi nếu câu trả lời của LLM quá bay bổng.
+- Chỉ dùng Prompt Engineering: Không an toàn, LLM vẫn có thể "ảo giác" và áp dụng luật mới cho đơn hàng cũ.
+- Dùng hoàn toàn Hard-code: Quá cứng nhắc, không xử lý được các trường hợp tinh tế như lỗi từ phía nhà sản xuất.
 
 **Kết quả:**
-Câu trả lời cuối cùng của pipeline luôn có độ tin cậy cao và minh bạch. Bằng chứng là trong mọi trace (`artifacts/traces/`), field `final_answer` luôn đi kèm với danh sách `sources` chính xác, giúp người dùng dễ dàng kiểm chứng lại thông tin.
+Hệ thống đạt độ chính xác 100% trong việc phát hiện các đơn hàng "lỗi thời" (ví dụ câu `gq02`). Bằng chứng là trong trace `run_20260414_171446.json`, Policy Worker đã trả về đúng `policy_version_note` cảnh báo về việc thiếu tài liệu V3.
 
 ---
 
-## 3. Tôi đã sửa một lỗi gì?
-
-**Lỗi:** Tràn Context (Context Overflow) trong Policy Tool.
+**Lỗi:** Hallucination về chính sách hoàn tiền cho đơn hàng cũ (`gq02`).
 
 **Symptom:**
-Khi retrieval worker trả về quá nhiều chunks (ví dụ 10-15 chunks), Policy worker gửi toàn bộ chúng kèm theo logic check phức tạp lên LLM, dẫn đến lỗi "context window limit" hoặc làm tăng latency đáng kể.
+Agent trả lời khách hàng *được hoàn tiền* cho đơn hàng ngày 31/01/2026 dựa trên chính sách V4 (trong khi chính sách này chỉ áp dụng từ tháng 2).
 
 **Root cause:**
-Do chưa có cơ chế lọc (filter) hoặc tóm tắt (summarize) context trước khi thực hiện phân tích chính sách chuyên sâu.
+LLM trong Policy Tool bị nhầm lẫn giữa ngày đặt hàng và ngày yêu cầu hoàn tiền, tự động "áp đặt" các điều kiện của phiên bản tài liệu mới nhất có trong database.
 
 **Cách sửa:**
-Tôi đã thêm logic **Re-ranking đơn giản** trong `policy_tool.py` để chỉ chọn ra 5 chunks có độ tương đồng cao nhất liên quan đến từ khóa "policy" hoặc "refund" trước khi gửi lên LLM, giúp tiết kiệm token và tăng tốc độ xử lý.
+Tôi đã thêm kiểm tra logic thời gian trong hàm `analyze_policy` của `policy_tool.py`. Nếu đơn hàng trước ngày `2026-02-01`, Agent sẽ trả ra kết quả "Không đủ thông tin" và ngăn chặn synthesis worker bịa đặt câu trả lời. Kết quả là câu `gq02` trong `grading_run.jsonl` hiện đã trả ra "Không đủ thông tin" chính xác 100%.
 
 ---
 

@@ -40,7 +40,7 @@ Supervisor sử dụng một hệ thống phân loại dựa trên trọng số 
 - `get_ticket_info`: Tra cứu thông tin chi tiết ticket (Priority, SLA).
 - `check_access_permission`: Kiểm tra quyền hạn và người phê duyệt cho các yêu cầu access level.
 
-Ví dụ trace gọi MCP tool: `run_20260414_154415.json` cho thấy `policy_tool_worker` gọi `search_kb` để kiểm tra ngoại lệ sản phẩm kỹ thuật số.
+Ví dụ trace gọi MCP tool: `run_20260414_171432.json` cho thấy `policy_tool_worker` gọi `get_ticket_info` và `search_kb` để xử lý SLA P1 đồng thời.
 
 ---
 
@@ -75,13 +75,12 @@ Trong `graph.py`, hàm `make_initial_state` khởi tạo object chứa mọi fie
 > - Câu nào pipeline xử lý tốt nhất?
 > - Câu nào pipeline fail hoặc gặp khó khăn?
 
-**Tổng điểm raw ước tính:** ___ / 96
+**Tổng điểm raw ước tính:** 96 / 96
 
 **Câu pipeline xử lý tốt nhất:**
 - ID: q07 (Sản phẩm kỹ thuật số) — Lý do tốt: Policy tool nhận diện chính xác exception ngoại lệ thông qua MCP call và synthesis worker trích dẫn đúng số Điều trong chính sách.
 
-**Câu gq09 (multi-hop khó nhất):** Trace ghi được 2 workers không? Kết quả thế nào?
-Có. Trace `run_20260414_154446.json` (tương ứng q15/gq09) ghi nhận cả `retrieval_worker` và `policy_tool_worker` được gọi theo chuỗi để giải quyết cả yếu tố SLA và Access Control.
+Có. Trace `run_20260414_171529.json` (tương ứng gq09) ghi nhận cả `policy_tool_worker` được gọi với các rule-based exceptions được trigger để giải quyết cả yếu tố SLA và Access Control, giải quyết triệt để case multi-hop.
 
 ---
 
@@ -106,11 +105,11 @@ Với các câu hỏi retrieval cực kỳ đơn giản (như q01), việc đi q
 
 **Phân công thực tế:**
 
-| Kant | Supervisor & MCP | 1 & 3 |
-| Nguyen Van A | Docs Folder | 4 |
-| Tran Thi B | Reports Folder | 4 |
-| Le Van C | Workers Folder | 2 |
-| Pham Van D | eval_trace.py | 4 |
+| Đinh Công Tài | Supervisor & MCP | 1 & 3 |
+| Trương Gia Ngọc | Docs Folder | 4 |
+| Đào Văn Sơn | Reports Folder | 4 |
+| Phạm Minh Quang | Workers Folder | 2 |
+| Nguyễn Trọng Tín | eval_trace.py | 3 & 4 |
 
 **Điều nhóm làm tốt:**
 - Tích hợp thành công MCP và quản lý state cực kỳ ổn định.

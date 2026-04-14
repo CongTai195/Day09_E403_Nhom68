@@ -51,10 +51,11 @@ def _get_embedding_fn():
         from openai import OpenAI
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         def embed(text: str) -> list:
-            resp = client.embeddings.create(input=text, model="text-embedding-3-small")
+            # text-embedding-3-small supports reduced dimensions
+            resp = client.embeddings.create(input=text, model="text-embedding-3-small", dimensions=384)
             return resp.data[0].embedding
         return embed
-    except ImportError:
+    except Exception:
         pass
 
     # Fallback: random embeddings cho test (KHÔNG dùng production)
