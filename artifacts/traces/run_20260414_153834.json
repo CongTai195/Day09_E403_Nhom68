@@ -1,0 +1,159 @@
+{
+  "task": "Hệ thống báo mã lỗi không rõ ERR-999 khi sync data.",
+  "route_reason": "human review: task contains unknown error or risk keywords | human approved → retrieval",
+  "risk_high": true,
+  "needs_tool": false,
+  "hitl_triggered": true,
+  "retrieved_chunks": [
+    {
+      "text": "Q: Tài khoản bị khóa sau bao nhiêu lần đăng nhập sai?\nA: Tài khoản bị khóa sau 5 lần đăng nhập sai liên tiếp. Để mở khóa, liên hệ IT Helpdesk hoặc tự reset qua portal SSO.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.1531,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "Ngoại lệ không được hoàn tiền:\n- Sản phẩm thuộc danh mục hàng kỹ thuật số (license key, subscription).\n- Đơn hàng đã áp dụng mã giảm giá đặc biệt theo chương trình khuyến mãi Flash Sale.\n- Sản phẩm đã được kích hoạt hoặc đăng ký tài khoản.",
+      "source": "policy_refund_v4.txt",
+      "score": 0.1249,
+      "metadata": {
+        "source": "policy_refund_v4.txt"
+      }
+    },
+    {
+      "text": "Q: Mật khẩu cần thay đổi định kỳ không?\nA: Có. Mật khẩu phải được thay đổi mỗi 90 ngày. Hệ thống sẽ nhắc nhở 7 ngày trước khi hết hạn.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.1228,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "=== Phần 1: Định nghĩa mức độ ưu tiên ===",
+      "source": "sla_p1_2026.txt",
+      "score": 0.1086,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    },
+    {
+      "text": "Bước 2: Thông báo\nGửi thông báo tới Slack #incident-p1 và email incident@company.internal ngay lập tức.",
+      "source": "sla_p1_2026.txt",
+      "score": 0.0993,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    },
+    {
+      "text": "1.2 Nghỉ ốm (Sick Leave):\n- Số ngày: 10 ngày/năm có trả lương.\n- Yêu cầu: Thông báo cho Line Manager trước 9:00 sáng ngày nghỉ.\n- Nếu nghỉ trên 3 ngày liên tiếp: Cần giấy tờ y tế từ bệnh viện.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.0988,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "Bước 1: Nhân viên gửi yêu cầu nghỉ phép qua hệ thống HR Portal (https://hr.company.internal) ít nhất 3 ngày làm việc trước ngày nghỉ.\nBước 2: Line Manager phê duyệt hoặc từ chối trong vòng 1 ngày làm việc.\nBước 3: Nhân viên nhận thông báo qua email sau khi được phê duyệt.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.0848,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "1.3 Nghỉ thai sản:\n- Nghỉ sinh con: 6 tháng theo quy định Luật Lao động.\n- Nghỉ nuôi con nhỏ: 1 tiếng/ngày trong 12 tháng đầu sau sinh.",
+      "source": "hr_leave_policy.txt",
+      "score": 0.0701,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "Q: Laptop bị hỏng phải báo cáo như thế nào?\nA: Tạo ticket P2 hoặc P3 tùy mức độ nghiêm trọng. Mang thiết bị đến IT Room (tầng 3) để kiểm tra.",
+      "source": "it_helpdesk_faq.txt",
+      "score": 0.0639,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "P2 — HIGH (Nghiêm trọng):\nĐịnh nghĩa: Sự cố ảnh hưởng một phần hệ thống, có workaround tạm thời.\nVí dụ: Một số tính năng không hoạt động, ảnh hưởng một nhóm người dùng.",
+      "source": "sla_p1_2026.txt",
+      "score": 0.0531,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    }
+  ],
+  "retrieved_sources": [
+    "policy_refund_v4.txt",
+    "it_helpdesk_faq.txt",
+    "hr_leave_policy.txt",
+    "sla_p1_2026.txt"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "Không đủ thông tin trong tài liệu nội bộ.",
+  "sources": [
+    "policy_refund_v4.txt",
+    "it_helpdesk_faq.txt",
+    "hr_leave_policy.txt",
+    "sla_p1_2026.txt"
+  ],
+  "confidence": 0.3,
+  "history": [
+    "[supervisor] received task: Hệ thống báo mã lỗi không rõ ERR-999 khi sync data.",
+    "[supervisor] route=human_review reason=human review: task contains unknown error or risk keywords",
+    "[human_review] HITL triggered — awaiting human input",
+    "[retrieval_worker] retrieved 10 chunks from ['policy_refund_v4.txt', 'it_helpdesk_faq.txt', 'hr_leave_policy.txt', 'sla_p1_2026.txt']",
+    "[synthesis_worker] answer generated, confidence=0.3, sources=['policy_refund_v4.txt', 'it_helpdesk_faq.txt', 'hr_leave_policy.txt', 'sla_p1_2026.txt']",
+    "[graph] completed in 5644ms"
+  ],
+  "workers_called": [
+    "human_review",
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 5644,
+  "run_id": "run_20260414_153834",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Hệ thống báo mã lỗi không rõ ERR-999 khi sync data.",
+        "top_k": 10
+      },
+      "output": {
+        "chunks_count": 10,
+        "sources": [
+          "policy_refund_v4.txt",
+          "it_helpdesk_faq.txt",
+          "hr_leave_policy.txt",
+          "sla_p1_2026.txt"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Hệ thống báo mã lỗi không rõ ERR-999 khi sync data.",
+        "chunks_count": 10,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 41,
+        "sources": [
+          "policy_refund_v4.txt",
+          "it_helpdesk_faq.txt",
+          "hr_leave_policy.txt",
+          "sla_p1_2026.txt"
+        ],
+        "confidence": 0.3
+      },
+      "error": null
+    }
+  ]
+}

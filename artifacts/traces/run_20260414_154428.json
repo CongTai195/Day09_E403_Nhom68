@@ -1,0 +1,165 @@
+{
+  "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+  "route_reason": "human review: task contains unknown error or risk keywords | human approved → retrieval",
+  "risk_high": true,
+  "needs_tool": false,
+  "hitl_triggered": true,
+  "retrieved_chunks": [
+    {
+      "text": "Ticket P2:\n- Phản hồi ban đầu: 2 giờ.\n- Xử lý và khắc phục: 1 ngày làm việc.\n- Escalation: Tự động escalate sau 90 phút không có phản hồi.",
+      "source": "sla_p1_2026.txt",
+      "score": -0.1,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    },
+    {
+      "text": "Ticket P3:\n- Phản hồi ban đầu: 1 ngày làm việc.\n- Xử lý và khắc phục: 5 ngày làm việc.",
+      "source": "sla_p1_2026.txt",
+      "score": -0.1012,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    },
+    {
+      "text": "Q: Hộp thư đến đầy, phải làm gì?\nA: Xóa email cũ hoặc yêu cầu tăng dung lượng qua ticket IT-ACCESS. Dung lượng tiêu chuẩn là 50GB.",
+      "source": "it_helpdesk_faq.txt",
+      "score": -0.1449,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "=== Phần 5: Lịch sử phiên bản ===\nv2026.1 (2026-01-15): Cập nhật SLA P1 resolution từ 6 giờ xuống 4 giờ.\nv2025.3 (2025-09-01): Thêm quy trình escalation tự động.\nv2025.1 (2025-03-01): Phiên bản đầu tiên.",
+      "source": "sla_p1_2026.txt",
+      "score": -0.1715,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    },
+    {
+      "text": "Level 2 — Standard Access:\nÁp dụng cho: Nhân viên chính thức đã qua thử việc.\nPhê duyệt: Line Manager + IT Admin.\nThời gian xử lý: 2 ngày làm việc.",
+      "source": "access_control_sop.txt",
+      "score": -0.1751,
+      "metadata": {
+        "source": "access_control_sop.txt"
+      }
+    },
+    {
+      "text": "Q: Tôi cần cài phần mềm mới, phải làm gì?\nA: Gửi yêu cầu qua Jira project IT-SOFTWARE. Line Manager phải phê duyệt trước khi IT cài đặt.",
+      "source": "it_helpdesk_faq.txt",
+      "score": -0.2002,
+      "metadata": {
+        "source": "it_helpdesk_faq.txt"
+      }
+    },
+    {
+      "text": "Ghi chú: Tài liệu này trước đây có tên \"Approval Matrix for System Access\".",
+      "source": "access_control_sop.txt",
+      "score": -0.2042,
+      "metadata": {
+        "source": "access_control_sop.txt"
+      }
+    },
+    {
+      "text": "=== Điều 4: Quy trình xử lý yêu cầu hoàn tiền ===\nBước 1: Khách hàng gửi yêu cầu qua hệ thống ticket nội bộ với category \"Refund Request\".\nBước 2: CS Agent xem xét trong vòng 1 ngày làm việc và xác nhận điều kiện đủ điều kiện.\nBước 3: Nếu đủ điều kiện, chuyển yêu cầu sang Finance Team để xử lý hoàn tiền.\nBước 4: Finance Team xử lý trong 3-5 ngày làm việc và thông báo kết quả cho khách hàng.",
+      "source": "policy_refund_v4.txt",
+      "score": -0.2074,
+      "metadata": {
+        "source": "policy_refund_v4.txt"
+      }
+    },
+    {
+      "text": "4.1 Điều kiện remote:\n- Nhân viên sau probation period có thể làm remote tối đa 2 ngày/tuần.\n- Team Lead phải phê duyệt lịch remote qua HR Portal.\n- Ngày onsite bắt buộc: Thứ 3 và Thứ 5 theo lịch team.",
+      "source": "hr_leave_policy.txt",
+      "score": -0.209,
+      "metadata": {
+        "source": "hr_leave_policy.txt"
+      }
+    },
+    {
+      "text": "Bước 4: Xử lý\nEngineer cập nhật tiến độ lên ticket mỗi 30 phút. Nếu cần hỗ trợ thêm, escalate ngay.",
+      "source": "sla_p1_2026.txt",
+      "score": -0.2104,
+      "metadata": {
+        "source": "sla_p1_2026.txt"
+      }
+    }
+  ],
+  "retrieved_sources": [
+    "hr_leave_policy.txt",
+    "it_helpdesk_faq.txt",
+    "sla_p1_2026.txt",
+    "access_control_sop.txt",
+    "policy_refund_v4.txt"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "Không đủ thông tin trong tài liệu nội bộ.",
+  "sources": [
+    "hr_leave_policy.txt",
+    "it_helpdesk_faq.txt",
+    "sla_p1_2026.txt",
+    "access_control_sop.txt",
+    "policy_refund_v4.txt"
+  ],
+  "confidence": 0.3,
+  "history": [
+    "[supervisor] received task: ERR-403-AUTH là lỗi gì và cách xử lý?",
+    "[supervisor] route=human_review reason=human review: task contains unknown error or risk keywords",
+    "[human_review] HITL triggered — awaiting human input",
+    "[retrieval_worker] retrieved 10 chunks from ['hr_leave_policy.txt', 'it_helpdesk_faq.txt', 'sla_p1_2026.txt', 'access_control_sop.txt', 'policy_refund_v4.txt']",
+    "[synthesis_worker] answer generated, confidence=0.3, sources=['hr_leave_policy.txt', 'it_helpdesk_faq.txt', 'sla_p1_2026.txt', 'access_control_sop.txt', 'policy_refund_v4.txt']",
+    "[graph] completed in 6663ms"
+  ],
+  "workers_called": [
+    "human_review",
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 6663,
+  "run_id": "run_20260414_154428",
+  "timestamp": "2026-04-14T15:44:28.598908",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "top_k": 10
+      },
+      "output": {
+        "chunks_count": 10,
+        "sources": [
+          "hr_leave_policy.txt",
+          "it_helpdesk_faq.txt",
+          "sla_p1_2026.txt",
+          "access_control_sop.txt",
+          "policy_refund_v4.txt"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "chunks_count": 10,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 41,
+        "sources": [
+          "hr_leave_policy.txt",
+          "it_helpdesk_faq.txt",
+          "sla_p1_2026.txt",
+          "access_control_sop.txt",
+          "policy_refund_v4.txt"
+        ],
+        "confidence": 0.3
+      },
+      "error": null
+    }
+  ],
+  "question_id": "q09"
+}
