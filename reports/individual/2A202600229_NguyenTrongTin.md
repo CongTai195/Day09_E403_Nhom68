@@ -1,6 +1,6 @@
 # Báo Cáo Cá Nhân — Lab Day 09: Multi-Agent Orchestration
 
-**Họ và tên:** Pham Van D
+**Họ và tên:** Nguyễn Trọng Tín
 **Vai trò trong nhóm:** Eval Specialist
 **Ngày nộp:** 2026-04-14
 
